@@ -11,7 +11,7 @@ await build({entryPoints:[fileURLToPath(new URL('client/app.js',root))],outfile:
 const html=read('dist/client/index.html');
 const assets={'/':{type:'text/html; charset=utf-8',body:html},'/index.html':{type:'text/html; charset=utf-8',body:html}};
 for(const file of ['styles.css','fonts.css','app.js','pdf.mjs','pdf.worker.mjs'])assets[`/${file}`]={type:file.endsWith('.css')?'text/css; charset=utf-8':'text/javascript; charset=utf-8',body:read(`dist/client/${file}`)};
-const types={png:'image/png',ttf:'font/ttf',txt:'text/plain'};
+const types={png:'image/png',svg:'image/svg+xml',ttf:'font/ttf',txt:'text/plain'};
 for(const file of readdirSync(new URL('dist/client/assets/',root)))assets[`/assets/${file}`]={type:types[file.split('.').pop()]||'application/octet-stream',base64:readFileSync(new URL(`dist/client/assets/${file}`,root)).toString('base64')};
 const source=read('src/worker.js').replace('/*__STATIC_ASSETS__*/',()=>`const STATIC=${JSON.stringify(assets)};`);
 const result=await build({stdin:{contents:source,resolveDir:fileURLToPath(new URL('src/',root)),sourcefile:'src/worker.js',loader:'js'},bundle:true,platform:'browser',format:'esm',target:'es2022',write:false,minify:true});

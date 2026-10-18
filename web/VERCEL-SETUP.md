@@ -1,4 +1,4 @@
-# TalentIQ · J.B. Hunt career-fair application
+# TalentIQ · career-fair application
 
 This package includes the redesigned application and a real server API. It is not a static-only website. Deploy the whole extracted folder, including `api`, `server`, `scripts`, `package.json`, and `vercel.json`.
 
@@ -116,4 +116,4 @@ The former live package detected a Groq key but crashed on recruiter-session loo
 
 Automated tests use embedded **real Postgres** for accounts, records, private resume retrieval, notes, status changes, sessions, and consent checks. Provider responses are simulated in those tests; no Groq key is bundled. Browser checks cover check-in without a candidate account, interviewer removal/restore, saved interview transcripts and evidence-linked highlights, resume upload, interviewer login, notes, phone layouts, and console errors. Recorder lifecycle tests use a simulated microphone/MediaRecorder, and provider responses are simulated; physical phone microphones and live Groq processing still need the production smoke test. The live Groq integration and physical camera/microphone need the deployment checks above.
 
-Design references: [Ashby’s recruiting workflows](https://www.ashbyhq.com/growth) inspired the queue/brief separation and evidence citations. The attached J.B. Hunt photographs and the supplied official scroll-logo artwork are bundled locally. Inter is bundled under its included SIL Open Font License.
+Design references: [Ashby’s recruiting workflows](https://www.ashbyhq.com/growth) inspired the queue/brief separation and evidence citations. The employer-neutral career-fair photographs are bundled locally. Inter is bundled under its included SIL Open Font License.

@@ -1,11 +1,10 @@
 import * as THREE from 'three';
-import logoData from './logo-data.js';
 const host = document.querySelector('#truck-scene');
 const motionButton = document.querySelector('#motion-toggle');
 const chapters = [...document.querySelectorAll('.chapter')];
 const links = [...document.querySelectorAll('.chapter-track a')];
 const label = document.querySelector('#truck-type');
-const labels = ['INTERMODAL / CONNECTED INTAKE', 'DEDICATED / RECRUITER WORKSPACE', 'FINAL MILE / VERIFIED FOLLOW-UP'];
+const labels = ['CAPTURE / CONNECTED INTAKE', 'REVIEW / RECRUITER WORKSPACE', 'VALIDATE / VERIFIED FOLLOW-UP'];
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 let paused = reduced.matches, active = 0;
 function updateButton() {
@@ -20,7 +19,7 @@ function chapterPosition() {
  const reference = innerWidth <= 650 ? innerHeight * .78 : innerHeight * .56;
  let nearest = 0, distance = Infinity;
  chapters.forEach((chapter,i) => {const r=chapter.getBoundingClientRect();const d=Math.abs(r.top+r.height/2-reference);if(d<distance){distance=d;nearest=i;}});
- if(nearest!==active){active=nearest;links.forEach((link,i)=>{link.classList.toggle('active',i===active);if(i===active)link.setAttribute('aria-current','step');else link.removeAttribute('aria-current');});label.textContent=labels[active];host.setAttribute('aria-label',`Illustrative J.B. Hunt ${['intermodal tractor trailer','dedicated dry van tractor trailer','final mile box truck'][active]} with ${['Capture','Review','Validate'][active]} messaging on the trailer.`);}
+ if(nearest!==active){active=nearest;links.forEach((link,i)=>{link.classList.toggle('active',i===active);if(i===active)link.setAttribute('aria-current','step');else link.removeAttribute('aria-current');});label.textContent=labels[active];host.setAttribute('aria-label',`Illustrative TalentIQ journey visual showing ${['Capture','Review','Validate'][active]}.`);}
  const rect=chapters[active].getBoundingClientRect();
  return Math.max(-1,Math.min(1,(reference-rect.top-rect.height/2)/rect.height));
 }
@@ -38,7 +37,7 @@ try {
  const light=new THREE.DirectionalLight(0xffffff,2.3);light.position.set(-5,12,9);light.castShadow=true;light.shadow.mapSize.set(2048,2048);Object.assign(light.shadow.camera,{left:-14,right:14,top:12,bottom:-12});light.shadow.bias=-.0004;scene.add(light);
  const fill=new THREE.DirectionalLight(0xffffff,1.4);fill.position.set(8,4,-7);scene.add(fill);
  const mat=(color,roughness=.6,metalness=.1)=>new THREE.MeshStandardMaterial({color,roughness,metalness});
- const white=mat(0xf8f8f5),black=mat(0x17191a,.7),yellow=mat(0xffcf00),metal=mat(0x9a9e9f,.3,.85),glass=mat(0x2b4551,.18,.65),rubber=mat(0x161719,.9);
+ const white=mat(0xf8f8f5),black=mat(0x17191a,.7),yellow=mat(0x47c4ae),metal=mat(0x9a9e9f,.3,.85),glass=mat(0x2b4551,.18,.65),rubber=mat(0x161719,.9);
  function box(group,w,h,d,x,y,z,material){const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;group.add(mesh);return mesh;}
  const road=new THREE.Group();scene.add(road);
  box(road,34,.12,6,0,-.1,0,mat(0xe4e4dd,.95,0));
@@ -70,11 +69,10 @@ try {
   wheel(group,front-.22,-1.08);wheel(group,front-.22,1.08);
  }
  const textureCanvases=[];
- function trailerTexture(index){const canvas=document.createElement('canvas');canvas.width=2048;canvas.height=640;textureCanvases.push(canvas);const ctx=canvas.getContext('2d');ctx.fillStyle=index===1?'#ffd000':'#f8f8f3';ctx.fillRect(0,0,2048,640);ctx.fillStyle='#d1d1c9';if(index===0){for(let x=0;x<2048;x+=35){ctx.fillRect(x,0,3,640);}}const t=new THREE.CanvasTexture(canvas);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer.capabilities.getMaxAnisotropy();return t;}
+ function trailerTexture(index){const canvas=document.createElement('canvas');canvas.width=2048;canvas.height=640;textureCanvases.push(canvas);const ctx=canvas.getContext('2d');ctx.fillStyle=index===1?'#47c4ae':'#f8f8f3';ctx.fillRect(0,0,2048,640);ctx.fillStyle='#d1d1c9';if(index===0){for(let x=0;x<2048;x+=35){ctx.fillRect(x,0,3,640);}}const t=new THREE.CanvasTexture(canvas);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer.capabilities.getMaxAnisotropy();return t;}
  const textures=[0,1,2].map(trailerTexture);
- const logo=new Image();logo.src=logoData;
- function paintTrailers(){textureCanvases.forEach((canvas,index)=>{const ctx=canvas.getContext('2d');ctx.fillStyle=index===1?'#ffd000':'#f8f8f3';ctx.fillRect(0,0,2048,640);if(index===0){ctx.fillStyle='#deded5';for(let x=0;x<2048;x+=35)ctx.fillRect(x,0,2,640);}ctx.drawImage(logo,115,95,535,136);ctx.fillStyle='#191919';ctx.font='700 45px Arial';ctx.fillText(['INTERMODAL','DEDICATED','FINAL MILE'][index],118,305);ctx.fillStyle='#191919';ctx.fillRect(720,90,3,440);ctx.font='700 135px Arial';ctx.fillText(['Capture.','Review.','Validate.'][index],810,260);ctx.font='44px Arial';ctx.fillText(['One scan. One shared record.','One connected workspace.','AI drafts. People decide.'][index],815,348);ctx.font='700 32px Arial';ctx.fillText('TALENT IQ',815,480);textures[index].needsUpdate=true;});}
- logo.onload=paintTrailers;if(logo.complete&&logo.naturalWidth)paintTrailers();
+ function paintTrailers(){textureCanvases.forEach((canvas,index)=>{const ctx=canvas.getContext('2d');ctx.fillStyle=index===1?'#dff5f0':'#f8f8f3';ctx.fillRect(0,0,2048,640);if(index===0){ctx.fillStyle='#dce9e6';for(let x=0;x<2048;x+=35)ctx.fillRect(x,0,2,640);}ctx.fillStyle='#112b35';ctx.font='700 92px Arial';ctx.fillText('TALENT IQ',115,225);ctx.font='700 45px Arial';ctx.fillText(['CANDIDATE INTAKE','RECRUITER WORKSPACE','VERIFIED FOLLOW-UP'][index],118,305);ctx.fillRect(720,90,3,440);ctx.font='700 135px Arial';ctx.fillText(['Capture.','Review.','Validate.'][index],810,260);ctx.font='44px Arial';ctx.fillText(['One scan. One shared record.','One connected workspace.','AI drafts. People decide.'][index],815,348);textures[index].needsUpdate=true;});}
+ paintTrailers();
  function truck(index){const g=new THREE.Group();const short=index===2;const length=short?6.2:9.2;const cx=short?.4:1.2;const centerY=short?2.65:2.9;const height=short?2.7:3.05;box(g,short?10:14,.28,1.4,short?-1:-.4,.9,0,black);cab(g,short);box(g,length,height,2.48,cx,centerY,0,index===1?yellow:white);box(g,length,.16,2.55,cx,centerY+height/2,0,metal);box(g,length,.13,2.55,cx,centerY-height/2,0,metal);
   for(const z of [-1,1]){const plane=new THREE.Mesh(new THREE.PlaneGeometry(length-.12,height-.13),new THREE.MeshStandardMaterial({map:textures[index],roughness:.75}));plane.position.set(cx,centerY,z*1.249);if(z===-1)plane.rotation.y=Math.PI;g.add(plane);box(g,length,.04,.02,cx,centerY-height/2+.14,z*1.265,yellow);}
   box(g,.08,height,2.42,cx+length/2+.03,centerY,0,metal);box(g,.14,.14,2.5,cx+length/2,.72,0,metal);

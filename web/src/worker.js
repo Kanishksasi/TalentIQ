@@ -115,7 +115,7 @@ function asset(path){const item=STATIC[path]||STATIC["/index.html"];return new R
 async function route(req,env){
   const u=new URL(req.url),p=u.pathname,m=req.method;
   try{
-    if(p==='/api/event'&&m==='GET')return u.searchParams.get('code')==='12345'?json({valid:true,code:'12345',name:'J.B. Hunt Career Fair'}):json({error:'This event code is not valid. Use 12345.'},400);
+    if(p==='/api/event'&&m==='GET')return u.searchParams.get('code')==='12345'?json({valid:true,code:'12345',name:'TalentIQ Career Fair'}):json({error:'This event code is not valid. Use 12345.'},400);
     if(p==="/api/health"&&m==="GET"){
       let connected=false;try{if(env.DB){await env.DB.prepare('SELECT id FROM candidates LIMIT 1').all();connected=true}}catch{}
       return json({ok:connected&&Boolean(env.UPLOADS),database:{provider:env.DB?.provider||(env.DB?'D1':null),connected},uploads:{provider:env.UPLOADS?.provider||(env.UPLOADS?'R2':null),configured:Boolean(env.UPLOADS)},aiConfigured:Boolean(env.GROQ_API_KEY),interviewerConfigured:Boolean(env.RECRUITER_EMAILS),eventCode:'12345'});

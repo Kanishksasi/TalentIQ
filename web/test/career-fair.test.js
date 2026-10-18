@@ -9,7 +9,7 @@ const req=(path,method='GET',data,cookie='',extra={})=>new Request(origin+path,{
 const cookie=r=>r.headers.get('set-cookie')?.split(';')[0]||'';
 test('account-free check-in, private interviewer records, consent, removal and restoration work in Postgres',async()=>{
  const {pg,DB,UPLOADS}=await localDatabase();
- const env={DB,UPLOADS,VERCEL_RUNTIME:true,RECRUITER_EMAILS:'recruiter@jbhunt.test',RECRUITER_SETUP_TOKEN:'test-setup-secret',GROQ_API_KEY:'test-only-provider-key'};
+ const env={DB,UPLOADS,VERCEL_RUNTIME:true,RECRUITER_EMAILS:'recruiter@example.test',RECRUITER_SETUP_TOKEN:'test-setup-secret',GROQ_API_KEY:'test-only-provider-key'};
  const originalFetch=globalThis.fetch;
  let calls=[];
  globalThis.fetch=async(url,options)=>{calls.push({url,options});if(url.includes('/audio/transcriptions'))return new Response(JSON.stringify({text:'I developed a route planning project using Python.'}),{headers:{'content-type':'application/json'}});const x=JSON.parse(options.body);const extraction=x.messages[0].content.startsWith('Extract');return new Response(JSON.stringify({choices:[{message:{content:JSON.stringify(extraction?{resumeText:'Alex Smith\nReact scheduling project',fields:{firstName:'Alex',lastName:'Smith',major:'Computer Science',relevantSkills:['React']},warnings:[]}:{statements:[{text:'Built a scheduling project.',citations:['Candidate profile']}],interviewQuestions:[{text:'How did you validate your scheduling project?',citations:['Candidate profile']}],keySkills:['React'],relevantExperience:['Scheduling project'],missingInformation:[]})}}]}),{headers:{'content-type':'application/json'}});};
@@ -36,10 +36,10 @@ test('account-free check-in, private interviewer records, consent, removal and r
   assert.equal((await worker.fetch(req('/api/transcribe','POST',{...intro,consent:false}),env)).status,403);
   assert.equal((await worker.fetch(req('/api/transcribe','POST',{...intro,eventCode:'wrong'}),env)).status,400);
   assert.equal((await worker.fetch(req('/api/transcribe','POST',{...intro,candidateId:id}),env)).status,403);
-  assert.equal((await worker.fetch(req('/api/auth/setup','POST',{email:'recruiter@jbhunt.test',password:'Strong-recruiter-password',setupToken:'wrong'}),env)).status,403);
-  assert.equal((await worker.fetch(req('/api/recruiter-session','GET',undefined,'',{'oai-authenticated-user-email':'recruiter@jbhunt.test'}),env)).status,200);
-  assert.equal((await(await worker.fetch(req('/api/recruiter-session','GET',undefined,'',{'oai-authenticated-user-email':'recruiter@jbhunt.test'}),env)).json()).authorized,false);
-  r=await worker.fetch(req('/api/auth/setup','POST',{email:'recruiter@jbhunt.test',password:'Strong-recruiter-password',setupToken:'test-setup-secret'}),env);assert.equal(r.status,200);const recruiter=cookie(r);
+  assert.equal((await worker.fetch(req('/api/auth/setup','POST',{email:'recruiter@example.test',password:'Strong-recruiter-password',setupToken:'wrong'}),env)).status,403);
+  assert.equal((await worker.fetch(req('/api/recruiter-session','GET',undefined,'',{'oai-authenticated-user-email':'recruiter@example.test'}),env)).status,200);
+  assert.equal((await(await worker.fetch(req('/api/recruiter-session','GET',undefined,'',{'oai-authenticated-user-email':'recruiter@example.test'}),env)).json()).authorized,false);
+  r=await worker.fetch(req('/api/auth/setup','POST',{email:'recruiter@example.test',password:'Strong-recruiter-password',setupToken:'test-setup-secret'}),env);assert.equal(r.status,200);const recruiter=cookie(r);
   r=await worker.fetch(req('/api/candidates','GET',undefined,recruiter),env);assert.equal((await r.json()).candidates.length,1);
   r=await worker.fetch(req(`/api/candidates/${id}/resume`,'GET',undefined,recruiter),env);assert.equal(r.status,200);assert.match(await r.text(),/React/);
   r=await worker.fetch(req(`/api/candidates/${id}`,'PATCH',{observations:{conversationNotes:'Discussed route planning.',recruiterName:'Recruiter'},recordStatus:'Follow-Up'},recruiter),env);assert.equal(r.status,200);assert.equal((await r.json()).candidate.observations.conversationNotes,'Discussed route planning.');

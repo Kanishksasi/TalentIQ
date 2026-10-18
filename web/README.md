@@ -1,6 +1,6 @@
 # TalentIQ web application
 
-TalentIQ is a mobile-first J.B. Hunt career-fair application. Candidates join by QR or event code **12345**, enter their contact details, photograph or upload a resume, review their details, and check in. Interviewers get a searchable queue, pipeline, removable/restorable check-ins, private resume access, conversation notes, cited Groq interview briefs, and Excel export. Candidates can dictate introductions; interviewers can record up to 20 minutes, save transcripts, and generate evidence-linked quick notes and highlights.
+TalentIQ is a mobile-first career-fair application for any recruiting team. Candidates join by QR or event code **12345**, enter their contact details, photograph or upload a resume, review their details, and check in. Interviewers get a searchable queue, pipeline, removable/restorable check-ins, private resume access, conversation notes, cited Groq interview briefs, and Excel export. Candidates can dictate introductions; interviewers can record up to 20 minutes, save transcripts, and generate evidence-linked quick notes and highlights.
 
 For the deployable package, use [VERCEL-SETUP.md](VERCEL-SETUP.md). The Vercel adapter uses **Neon Postgres** for accounts, candidate records, and private resume files. The original Cloudflare Worker code is retained, but Vercel does not automatically provide its former D1/R2 bindings.
 

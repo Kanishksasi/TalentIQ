@@ -1,6 +1,6 @@
 # Talent IQ — Investor presentation
 
-An independent investor presentation for the Talent IQ project, using J.B. Hunt's yellow, black, and white palette, its official logo, and the supplied truck photograph.
+An independent investor presentation for the TalentIQ project, using its own navy and teal identity and an employer-neutral career-fair photograph.
 
 ## Open the website
 
@@ -14,7 +14,7 @@ Then visit http://localhost:4173.
 
 ## Present
 
-Scroll to move through the three truck chapters. Chapter links jump to Capture, Review, and Validate. The trucks are illustrative procedural 3D models inspired by intermodal, dedicated dry van, and final mile equipment; they are not manufacturer CAD models. Trailer graphics contain the Talent IQ presentation messaging and the J.B. Hunt logo. Pause motion is available, and system reduced-motion preferences are respected. If WebGL is unavailable, the site displays the truck photograph and retains the complete presentation text.
+Scroll to move through the three illustrated journey chapters. Chapter links jump to Capture, Review, and Validate. The procedural 3D models are visual metaphors for the recruiting workflow, not an affiliation with any employer. Their graphics show only TalentIQ messaging. Pause motion is available, and system reduced-motion preferences are respected. If WebGL is unavailable, the site displays the career-fair photograph and retains the complete presentation text.
 
 ## Content basis
 
@@ -34,9 +34,8 @@ Website content lives in `source/dist/index.html`, styling in `source/dist/style
 
 ## Asset and library sources
 
-- Official J.B. Hunt logo: https://www.jbhunt.com/content/experience-fragments/jbhunt/primary-nav/master/_jcr_content/root/main-par/header_v3/image.coreimg.png/1745513542586/jbh-logo-hires.png
-- Truck photograph: supplied by the user.
+- Career-fair photograph: created for TalentIQ.
 - Three.js 0.180.0: https://threejs.org/ (MIT license, included in THIRD_PARTY_LICENSES.txt).
 - Three.js installation guidance: https://threejs.org/manual/pages/installation.html
 
-J.B. Hunt branding is used for the requested presentation audience. This project presentation does not assert an official endorsement.
+TalentIQ is presented as an independent platform and does not assert endorsement by any employer.
